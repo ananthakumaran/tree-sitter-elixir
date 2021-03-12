@@ -1,0 +1,226 @@
+================================================================================
+parenthesized no arg
+================================================================================
+
+fn() -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (block))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
+
+================================================================================
+parenthesized one arg
+================================================================================
+
+fn(a) -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (block
+              (expr
+                (identifier))))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
+
+================================================================================
+parenthesized multi args
+================================================================================
+
+fn(a, b) -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (identifier))
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
+
+================================================================================
+parenthesized multi args, multi line body
+================================================================================
+
+fn(a, b) ->
+  a + b
+  5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (identifier))
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier))))
+          (expr
+            (integer)))))))
+
+================================================================================
+non parenthesized no arg
+================================================================================
+
+fn -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
+
+================================================================================
+non parenthesized one arg
+================================================================================
+
+fn a -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
+
+================================================================================
+non parenthesized multi args
+================================================================================
+
+fn a, b -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (identifier))
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
+
+================================================================================
+non parenthesized multi args, multi line body
+================================================================================
+
+fn a, b ->
+  a + b
+  5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (stab_expr
+          (expr
+            (identifier))
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier))))
+          (expr
+            (integer)))))))
+
+================================================================================
+non parenthesized body with dot call
+================================================================================
+
+File.cd!(dir, fn ->
+  Mix.Task.run("deps.loadpaths")
+end)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (dot_call
+        (module)
+        (identifier)
+        (args
+          (expr
+            (identifier))
+          (expr
+            (anonymous_function
+              (stab_expr
+                (expr
+                  (dot_call
+                    (module)
+                    (identifier)
+                    (args
+                      (expr
+                        (string
+                          (string_start)
+                          (string_content)
+                          (string_end))))))))))))))

@@ -1,0 +1,147 @@
+================================================================================
+cond multi clause
+================================================================================
+
+cond do
+  1 -> "a"
+  2 -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (do_block
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
+
+================================================================================
+cond single clause
+================================================================================
+
+cond do
+  {a} -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (do_block
+          (stab_expr
+            (expr
+              (tuple
+                (expr
+                  (identifier))))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
+
+================================================================================
+cond multi clause multi line body
+================================================================================
+
+cond do
+  1 -> "a"
+  2 ->
+    a.call()
+    5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (do_block
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (dot_call
+                (identifier)
+                (identifier)
+                (args)))
+            (expr
+              (integer))))))))
+
+================================================================================
+cond with parens
+================================================================================
+
+cond do
+  (negated = false) && :boolean in List.wrap(b) ->
+    1
+  true ->
+    :unknown
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (do_block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (block
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (literal))))))
+                (expr
+                  (binary_op
+                    (expr
+                      (atom))
+                    (expr
+                      (dot_call
+                        (module)
+                        (identifier)
+                        (args
+                          (expr
+                            (identifier)))))))))
+            (expr
+              (integer)))
+          (stab_expr
+            (expr
+              (literal))
+            (expr
+              (atom))))))))

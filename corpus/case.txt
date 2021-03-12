@@ -1,0 +1,285 @@
+================================================================================
+case multi clause
+================================================================================
+
+case s do
+  1 -> "a"
+  2 -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (do_block
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
+
+================================================================================
+case single clause
+================================================================================
+
+case s do
+  {a} -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (do_block
+          (stab_expr
+            (expr
+              (tuple
+                (expr
+                  (identifier))))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
+
+================================================================================
+case multi clause multi line body
+================================================================================
+
+case s do
+  1 -> "a"
+  2 ->
+    a.call()
+    5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (do_block
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (stab_expr
+            (expr
+              (integer))
+            (expr
+              (dot_call
+                (identifier)
+                (identifier)
+                (args)))
+            (expr
+              (integer))))))))
+
+================================================================================
+case with guards
+================================================================================
+
+case 1 do
+ x when hd(x) -> "Won't match"
+ x -> "Got " <> y
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (integer))
+        (do_block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (qualified_call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (stab_expr
+            (expr
+              (identifier))
+            (expr
+              (binary_op
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
+                (expr
+                  (identifier))))))))))
+
+================================================================================
+case line break
+================================================================================
+
+case args do
+  ["callers", callee] ->
+    callers(callee, opts)
+
+  ["graph"] ->
+    graph(opts)
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (do_block
+          (stab_expr
+            (expr
+              (list
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
+                (expr
+                  (identifier))))
+            (expr
+              (qualified_call
+                (identifier)
+                (args
+                  (expr
+                    (identifier))
+                  (expr
+                    (identifier))))))
+          (stab_expr
+            (expr
+              (list
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))
+            (expr
+              (qualified_call
+                (identifier)
+                (args
+                  (expr
+                    (identifier)))))))))))
+
+================================================================================
+case binary line break
+================================================================================
+
+case x do
+  <<"sigil_", name>> when name >= ?A and name <= ?Z ->
+    a
+  <<"sigil_", name>> when name >= ?a and name <= ?z ->
+    b
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (do_block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (binary
+                    (expr
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end)))
+                    (expr
+                      (identifier))))
+                (expr
+                  (binary_op
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))))))
+            (expr
+              (identifier)))
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (binary
+                    (expr
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end)))
+                    (expr
+                      (identifier))))
+                (expr
+                  (binary_op
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))))))
+            (expr
+              (identifier))))))))

@@ -1,0 +1,577 @@
+================================================================================
+keyword list
+================================================================================
+
+[
+  version: "0.1.0",
+  build_per_environment: true,
+  build_path: "_build",
+  lockfile: "mix.lock",
+  deps_path: "deps",
+  deps: deps,
+  app: :mix_install,
+  erlc_paths: ["src"],
+  elixirc_paths: ["lib"],
+  consolidate_protocols: false
+]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (keyword)
+          (expr
+            (literal))
+          (keyword)
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (keyword)
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (keyword)
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (keyword)
+          (expr
+            (identifier))
+          (keyword)
+          (expr
+            (atom))
+          (keyword)
+          (expr
+            (list
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))))
+          (keyword)
+          (expr
+            (list
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))))
+          (keyword)
+          (expr
+            (literal)))))))
+
+================================================================================
+heredoc
+================================================================================
+
+"""
+a
+"""
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (heredoc
+        (heredoc_start)
+        (heredoc_content)
+        (heredoc_end)))))
+
+================================================================================
+string
+================================================================================
+
+"abc"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))))
+
+================================================================================
+interpolated string
+================================================================================
+
+"abc#{x+2}xyz"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (interpolation
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (integer)))))
+        (string_content)
+        (string_end)))))
+
+================================================================================
+string escape sequence
+================================================================================
+
+"a\"quote\"b"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (escape_sequence)
+        (string_content)
+        (escape_sequence)
+        (string_content)
+        (string_end)))))
+
+================================================================================
+heredoc escape sequence
+================================================================================
+
+"""
+a\"quote\"b
+"""
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (heredoc
+        (heredoc_start)
+        (heredoc_content)
+        (escape_sequence)
+        (heredoc_content)
+        (escape_sequence)
+        (heredoc_content)
+        (heredoc_end)))))
+
+================================================================================
+atoms
+================================================================================
+
+:atom
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (atom))))
+
+================================================================================
+operator atom
+================================================================================
+
+[:@, :., :+, :-, :!, :^, :not, :~~~, :*, :/, :+, :-, :++, :--, :.., :<>, :+++, :---, :^^^, :in, :not, :|>, :<<<, :>>>, :<<~, :~>>, :<~, :~>, :<~>, :<|>, :<, :>, :<=, :>=, :==, :!=, :=~, :===, :!==, :&&, :&&&, :and, :||, :|||, :=, :&, :=>, :|, :::, :when, :<-, :\\, :%, :%{}, :{}, :->, :<<>>]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))))))
+
+================================================================================
+single quote heredoc
+================================================================================
+
+'''
+a"
+'''
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (heredoc
+        (heredoc_start)
+        (heredoc_content)
+        (heredoc_end)))))
+
+================================================================================
+single quote string
+================================================================================
+
+'abc'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))))
+
+================================================================================
+single quote interpolated string
+================================================================================
+
+'abc#{x+2}xyz'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (interpolation
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (integer)))))
+        (string_content)
+        (string_end)))))
+
+================================================================================
+single quote string escape sequence
+================================================================================
+
+'a\'quote\'b'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (escape_sequence)
+        (string_content)
+        (escape_sequence)
+        (string_content)
+        (string_end)))))
+
+================================================================================
+char
+================================================================================
+
+?a
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (char))))
+
+================================================================================
+char escaped
+================================================================================
+
+?\n
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (char))))
+
+================================================================================
+interpolated atom
+================================================================================
+
+:"a#{i}b"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (atom
+        (atom_start)
+        (atom_content)
+        (interpolation
+          (expr
+            (identifier)))
+        (atom_content)
+        (atom_end)))))
+
+================================================================================
+single quote interpolated atom
+================================================================================
+
+:'"a#{i}b'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (atom
+        (atom_start)
+        (atom_content)
+        (interpolation
+          (expr
+            (identifier)))
+        (atom_content)
+        (atom_end)))))
+
+================================================================================
+keyword list with caps start
+================================================================================
+
+eval_binds(CONFIG: config, SCRIPT: script)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (qualified_call
+        (identifier)
+        (args
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (identifier))
+            (keyword)
+            (expr
+              (identifier))))))))
+
+================================================================================
+operator keyword
+================================================================================
+
+[~~~: 1, &&&: 2, |||: 2, ^^^: 2, <<<: 2, >>>: 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer)))))))
+
+================================================================================
+string keyword
+================================================================================
+
+["a": 1, "b#{2}3": 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (expr
+            (integer))
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (interpolation
+                (expr
+                  (integer)))
+              (string_content)
+              (string_end)))
+          (expr
+            (integer)))))))
+
+================================================================================
+single quote string keyword
+================================================================================
+
+['a': 1, 'b#{1}': 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (expr
+            (integer))
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (interpolation
+                (expr
+                  (integer)))
+              (string_end)))
+          (expr
+            (integer)))))))
