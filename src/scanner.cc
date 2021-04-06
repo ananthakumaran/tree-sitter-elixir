@@ -145,6 +145,33 @@ struct Scanner {
     return !is_identifier_body(c) && c != '?' && c != '!' && c != ':';
   }
 
+  bool is_inside_heredoc(const bool *valid_symbols, vector<StackItem> stack) {
+    return stack.back().type == HEREDOC &&
+      (valid_symbols[HEREDOC_CONTENT] || valid_symbols[HEREDOC_END]);
+  }
+
+  bool is_inside_string(const bool *valid_symbols, vector<StackItem> stack) {
+    return stack.back().type == STRING &&
+      (valid_symbols[STRING_CONTENT] || valid_symbols[STRING_END]);
+  }
+
+  bool is_inside_sigil(const bool *valid_symbols, vector<StackItem> stack) {
+    return stack.back().type == SIGIL &&
+      (valid_symbols[SIGIL_CONTENT] || valid_symbols[SIGIL_END]);
+  }
+
+  bool is_inside_atom(const bool *valid_symbols, vector<StackItem> stack) {
+    return stack.back().type == ATOM &&
+      (valid_symbols[ATOM_CONTENT] || valid_symbols[ATOM_END]);
+  }
+
+  bool skip_line_break_token(TSLexer *lexer, const bool *valid_symbols, vector<StackItem> stack) {
+    return (!stack.empty()) &&
+      (is_inside_heredoc(valid_symbols, stack) ||
+       is_inside_string(valid_symbols, stack) ||
+       is_inside_atom(valid_symbols, stack) ||
+       is_inside_sigil(valid_symbols, stack));
+  }
 
   int32_t sigil_terminator(int32_t c) {
     switch (c) {
@@ -1330,8 +1357,7 @@ struct Scanner {
       while (is_whitespace(lexer->lookahead)) skip(lexer);
     }
 
-    if ((valid_symbols[LINE_BREAK]) &&
-        is_newline(lexer->lookahead)) {
+    if (!skip_line_break_token(lexer, valid_symbols, stack) && is_newline(lexer->lookahead)) {
       skip(lexer);
       while (is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead)) skip(lexer);
       lexer->mark_end(lexer);

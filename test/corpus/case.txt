@@ -277,3 +277,35 @@ end
                           (string_end))
                         (identifier)))))
                 (identifier)))))))))
+
+================================================================================
+multiple case clause with call conflict
+================================================================================
+
+case s do
+  10 ->
+     :ok
+     foo
+
+  20 ->
+     :ok
+end
+
+--------------------------------------------------------------------------------
+
+(program
+  (call
+    (identifier)
+    (identifier)
+    (do_block
+      (stab_expression
+        (bare_arguments
+          (integer))
+        (atom
+          (atom_literal))
+        (identifier))
+      (stab_expression
+        (bare_arguments
+          (integer))
+        (atom
+          (atom_literal))))))
