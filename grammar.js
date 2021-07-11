@@ -33,7 +33,7 @@ function binaryOp($, assoc, precedence, operator, right) {
 }
 
 function aliases(rules, symbol) {
-  return rules.map(rule => alias(rule, symbol));
+  return rules.map((rule) => alias(rule, symbol));
 }
 
 function unaryOp($, assoc, precedence, operator) {
@@ -105,20 +105,20 @@ const OPERATORS = [
   "::",
   "<-",
   "\\\\",
-  "..//"
+  "..//",
 ];
 
 const PREC = {
   COMMENT: -2,
   CALL: -1,
   DOT_CALL: 310,
-  ACCESS_CALL: 8
+  ACCESS_CALL: 8,
 };
 
 module.exports = grammar({
   name: "elixir",
 
-  externals: $ => [
+  externals: ($) => [
     $._line_break,
     $._non_breaking_line,
     $.heredoc_start,
@@ -153,34 +153,39 @@ module.exports = grammar({
     $._catch,
     $._rescue,
     $._after,
-    $._else
+    $._else,
   ],
 
-  extras: $ => [$.comment, /[\t \f]/, $._non_breaking_line, $._escaped_newline],
+  extras: ($) => [
+    $.comment,
+    /[\t \f]/,
+    $._non_breaking_line,
+    $._escaped_newline,
+  ],
 
-  conflicts: $ => [
+  conflicts: ($) => [
     [$.call],
     [$._bare_arguments],
     [$._clause_body],
     [$.keyword_list],
     [$.block, $._bare_arguments],
     [$.block, $.paren_expr, $._bare_arguments],
-    [$.block, $.stab_expression]
+    [$.block, $.stab_expression],
   ],
 
-  inline: $ => [$._identifier],
+  inline: ($) => [$._identifier],
 
-  word: $ => $.identifier,
+  word: ($) => $.identifier,
 
   rules: {
-    program: $ =>
+    program: ($) =>
       seq(
         optional($._terminator),
         sep($._expression, $._terminator),
         optional($._terminator)
       ),
 
-    _expression: $ =>
+    _expression: ($) =>
       choice(
         $.binary_op,
         $.unary_op,
@@ -208,10 +213,10 @@ module.exports = grammar({
         $._identifier
       ),
 
-    _identifier: $ =>
+    _identifier: ($) =>
       choice($.identifier, $.unused_identifier, $.special_identifier),
 
-    block: $ =>
+    block: ($) =>
       seq(
         "(",
         optional($._terminator),
@@ -220,7 +225,7 @@ module.exports = grammar({
         ")"
       ),
 
-    paren_expr: $ =>
+    paren_expr: ($) =>
       seq(
         "(",
         optional($._terminator),
@@ -229,13 +234,13 @@ module.exports = grammar({
         ")"
       ),
 
-    paren_call: $ =>
+    paren_call: ($) =>
       seq(
         field("function", alias($._identifier, $.function_identifier)),
         $.arguments
       ),
 
-    call: $ =>
+    call: ($) =>
       prec(
         PREC.CALL,
         choice(
@@ -265,7 +270,7 @@ module.exports = grammar({
         )
       ),
 
-    binary_op: $ =>
+    binary_op: ($) =>
       choice(
         binaryOp($, prec.left, 40, choice("\\\\", "<-")),
         binaryOp(
@@ -304,7 +309,7 @@ module.exports = grammar({
         $._op_capture
       ),
 
-    unary_op: $ =>
+    unary_op: ($) =>
       choice(
         unaryOp($, prec, 90, "&"),
         unaryOp(
@@ -316,7 +321,7 @@ module.exports = grammar({
         unaryOp($, prec, 320, "@")
       ),
 
-    _op_capture: $ =>
+    _op_capture: ($) =>
       prec.left(
         220,
         seq(
@@ -335,13 +340,13 @@ module.exports = grammar({
         )
       ),
 
-    _capture_op: $ =>
+    _capture_op: ($) =>
       prec(
         320,
         seq(field("operator", "&"), optional($._terminator), $.integer)
       ),
 
-    _dot_call_function_args: $ =>
+    _dot_call_function_args: ($) =>
       choice(
         prec.right(
           seq(
@@ -380,7 +385,7 @@ module.exports = grammar({
                     $._catch,
                     $._rescue,
                     $._after,
-                    $._else
+                    $._else,
                   ],
                   $.function_identifier
                 )
@@ -394,7 +399,7 @@ module.exports = grammar({
         $.tuple
       ),
 
-    _simple_dot_call: $ =>
+    _simple_dot_call: ($) =>
       prec.left(
         PREC.DOT_CALL,
         seq(
@@ -417,7 +422,7 @@ module.exports = grammar({
         )
       ),
 
-    _complex_dot_call: $ =>
+    _complex_dot_call: ($) =>
       prec.left(
         PREC.DOT_CALL,
         seq(
@@ -438,20 +443,20 @@ module.exports = grammar({
         )
       ),
 
-    dot_call: $ => choice($._simple_dot_call, $._complex_dot_call),
+    dot_call: ($) => choice($._simple_dot_call, $._complex_dot_call),
 
-    access_call: $ =>
+    access_call: ($) =>
       prec.left(
         PREC.ACCESS_CALL,
         seq($._expression, token.immediate("["), $._expression, "]")
       ),
 
-    after_block: $ => blockExpression($, alias($._after, "after")),
-    rescue_block: $ => blockExpression($, alias($._rescue, "rescue")),
-    catch_block: $ => blockExpression($, alias($._catch, "catch")),
-    else_block: $ => blockExpression($, alias($._else, "else")),
+    after_block: ($) => blockExpression($, alias($._after, "after")),
+    rescue_block: ($) => blockExpression($, alias($._rescue, "rescue")),
+    catch_block: ($) => blockExpression($, alias($._catch, "catch")),
+    else_block: ($) => blockExpression($, alias($._else, "else")),
 
-    do_block: $ =>
+    do_block: ($) =>
       prec.left(
         5,
         seq(
@@ -464,7 +469,7 @@ module.exports = grammar({
         )
       ),
 
-    anonymous_function: $ =>
+    anonymous_function: ($) =>
       seq(
         alias($._fn, "fn"),
         optional($._terminator),
@@ -473,7 +478,7 @@ module.exports = grammar({
         alias($._end, "end")
       ),
 
-    arguments: $ =>
+    arguments: ($) =>
       seq(
         token.immediate("("),
         optional($._terminator),
@@ -489,9 +494,9 @@ module.exports = grammar({
         ")"
       ),
 
-    bare_arguments: $ => $._bare_arguments,
+    bare_arguments: ($) => $._bare_arguments,
 
-    _bare_arguments: $ =>
+    _bare_arguments: ($) =>
       choice(
         seq(
           commaSep1($, $._expression),
@@ -500,7 +505,7 @@ module.exports = grammar({
         $.keyword_list
       ),
 
-    map: $ =>
+    map: ($) =>
       seq(
         "%{",
         optional($._terminator),
@@ -510,7 +515,7 @@ module.exports = grammar({
         "}"
       ),
 
-    struct: $ =>
+    struct: ($) =>
       seq(
         "%",
         choice(
@@ -529,7 +534,7 @@ module.exports = grammar({
         "}"
       ),
 
-    list: $ =>
+    list: ($) =>
       seq(
         "[",
         optional($._terminator),
@@ -539,7 +544,7 @@ module.exports = grammar({
         "]"
       ),
 
-    binary: $ =>
+    binary: ($) =>
       seq(
         "<<",
         optional($._terminator),
@@ -549,10 +554,10 @@ module.exports = grammar({
         ">>"
       ),
 
-    keyword_list: $ =>
+    keyword_list: ($) =>
       commaSep1($, seq($.keyword, optional($._terminator), $._expression)),
 
-    tuple: $ =>
+    tuple: ($) =>
       seq(
         "{",
         optional($._terminator),
@@ -562,7 +567,7 @@ module.exports = grammar({
         "}"
       ),
 
-    stab_expression: $ =>
+    stab_expression: ($) =>
       seq(
         optional(
           field(
@@ -585,31 +590,31 @@ module.exports = grammar({
         field("right", seq(optional($._terminator), $._clause_body))
       ),
 
-    _clause_body: $ =>
+    _clause_body: ($) =>
       seq($._expression, optional(seq($._terminator, $._clause_body))),
 
-    heredoc: $ =>
+    heredoc: ($) =>
       seq(
         $.heredoc_start,
         repeat(choice($.heredoc_content, $.escape_sequence, $.interpolation)),
         $.heredoc_end
       ),
 
-    sigil: $ =>
+    sigil: ($) =>
       seq(
         $.sigil_start,
         repeat(choice($.sigil_content, $.escape_sequence, $.interpolation)),
         $.sigil_end
       ),
 
-    string: $ =>
+    string: ($) =>
       seq(
         $.string_start,
         repeat(choice($.string_content, $.escape_sequence, $.interpolation)),
         $.string_end
       ),
 
-    atom: $ =>
+    atom: ($) =>
       choice(
         $.atom_literal,
         seq(
@@ -619,13 +624,13 @@ module.exports = grammar({
         )
       ),
 
-    keyword: $ =>
+    keyword: ($) =>
       choice(
         $.keyword_literal,
         seq(alias($.string, $.keyword_string), token.immediate(":"), /[\s]+/)
       ),
 
-    interpolation: $ =>
+    interpolation: ($) =>
       seq(
         "#{",
         optional($._terminator),
@@ -635,7 +640,7 @@ module.exports = grammar({
       ),
 
     // https://hexdocs.pm/elixir/master/String.html#module-escape-characters
-    escape_sequence: $ =>
+    escape_sequence: ($) =>
       token(
         seq(
           "\\",
@@ -649,14 +654,14 @@ module.exports = grammar({
         )
       ),
 
-    integer: $ =>
+    integer: ($) =>
       /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
-    float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
-    module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
-    comment: $ => token(prec(PREC.COMMENT, seq("#", /.*/))),
-    _terminator: $ => prec.right(atleastOnce(choice($._line_break, ";"))),
-    _literal: $ => choice($.true, $.false, $.nil),
-    char: $ => /\?(.|\\.)/,
-    _escaped_newline: $ => /\\\n/
-  }
+    float: ($) => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
+    module: ($) => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
+    comment: ($) => token(prec(PREC.COMMENT, seq("#", /.*/))),
+    _terminator: ($) => prec.right(atleastOnce(choice($._line_break, ";"))),
+    _literal: ($) => choice($.true, $.false, $.nil),
+    char: ($) => /\?(.|\\.)/,
+    _escaped_newline: ($) => /\\\n/,
+  },
 });
