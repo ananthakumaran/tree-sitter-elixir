@@ -19,3 +19,6 @@ Emacs users can refer
 [init-tree-sitter.el](https://gist.github.com/ananthakumaran/ed91ef5a7bbf679cdf13e8a65ea54abe)
 for a sample config.
 
+## Vim
+
+[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) supports [elixir](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages)
