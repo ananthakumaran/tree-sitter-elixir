@@ -1,3 +1,6 @@
+This project is no longer maintained. Please checkout the official
+elixir [grammar](https://github.com/elixir-lang/tree-sitter-elixir) for treesitter.
+
 ## Status
 
 The grammar is still in progress, as of now, it can parse all the
